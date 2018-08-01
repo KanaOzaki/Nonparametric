@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-#2017/10/27 CRP_assignment.py : CRPにおけるテーブル数と着席客数(n=1000人)
+#2017/10/27 CRP_assignment.py : CRPにおけるテーブル数と着席客数をグラフで表す
 
 import random as rm
 import matplotlib.pyplot as plt
+from collections import Counter
 
 def chinese_restaurant_process(num_customers, alpha):
   if num_customers <= 0:
@@ -26,21 +27,29 @@ def chinese_restaurant_process(num_customers, alpha):
   
   return table_assignments
 
-#入力からnum_customersとalphaを取得 alphaは比較のために2つ
-num_customers = int(raw_input())
-alpha = int(raw_input())
+def main():
 
-result = chinese_restaurant_process(num_customers, alpha)
+  #入力からnum_customersとalphaを取得 
+  print ("input number of customers")
+  num_customers = int(input())
+  print ("input alpha (>=1, int)")
+  alpha = int(input())
 
-counter = 0
-#使用テーブル数を出力
-print(max(result))
+  result = chinese_restaurant_process(num_customers, alpha)
 
-#結果をヒストグラムとして出力
-plt.hist(result,rwidth=0.5, color = "orange", bins = max(result))
-plt.xlim([0,60])
-plt.ylim([0,600])
-plt.savefig("test.png")
+  counter = 0
+  #使用テーブル数を出力
+  print("number of table:",max(result))
+
+  #結果をヒストグラムとして出力
+  plt.hist(result,rwidth=0.5, color = "orange", bins = max(result))
+  result_count = Counter(result)
+  plt.xlim([0,max(result)])
+  plt.ylim([0,result_count.most_common()[0][1]+10])
+  plt.savefig("CRP_assignment.png")
+
+if __name__ == '__main__':
+  main()
 
 
 
